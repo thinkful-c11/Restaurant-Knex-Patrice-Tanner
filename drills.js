@@ -1,6 +1,8 @@
 
 const { DATABASE, PORT } = require('./config');
 const knex = require('knex')(DATABASE);
+const Treeize = require('treeize');
+const handleResults = new Treeize();
 
 // clear the console before each run
 process.stdout.write('\033c');
@@ -143,35 +145,42 @@ process.stdout.write('\033c');
 // });
 // console.log(hydrated);
 
-knex.select('restaurants.id', 'name', 'cuisine', 'borough', 'grades.id as gradeId', 'grade', 'score')
-    .from('restaurants')
-    .innerJoin('grades', 'restaurants.id', 'grades.restaurant_id')
-    .orderBy('date', 'desc')
-    .limit(10)
-    .then(results => hydrator(results));
+// knex.select('restaurants.id', 'name', 'cuisine', 'borough', 'grades.id as gradeId', 'grade', 'score')
+//     .from('restaurants')
+//     .innerJoin('grades', 'restaurants.id', 'grades.restaurant_id')
+//     .orderBy('date', 'desc')
+//     .limit(10)
+//     .then(results => hydrator(results));
 
-const hydrated = {};
-function hydrator (results){
-  results.forEach(row => {
-    if(!(row.id in hydrated)){
-      hydrated[row.id] = {
-        id : row.id,
-        name : row.name,
-        cuisine : row.cuisine,
-        borough : row.borough,
-        grades : []
-      }
-    }
-    hydrated[row.id].grades.push({
-      gradeID : row.gradeId,
-      grade : row.grade,
-      score : row.score
-    });
+// const hydrated = {};
+// function hydrator (results){
+//   results.forEach(row => {
+//     if(!(row.id in hydrated)){
+//       hydrated[row.id] = {
+//         id : row.id,
+//         name : row.name,
+//         cuisine : row.cuisine,
+//         borough : row.borough,
+//         grades : []
+//       }
+//     }
+//     hydrated[row.id].grades.push({
+//       gradeID : row.gradeId,
+//       grade : row.grade,
+//       score : row.score
+//     });
 
-  });
+//   });
 
-  console.log(JSON.stringify(hydrated,null, 4));
-}
+//   console.log(JSON.stringify(hydrated,null, 4));
+// }
+
+// knex.select('restaurants.id', 'name', 'cuisine', 'borough', 'grades.id as gradeId', 'grade', 'score')
+//     .from('restaurants')
+//     .innerJoin('grades', 'restaurants.id', 'grades.restaurant_id')
+//     .orderBy('date', 'desc')
+//     .limit(10)
+//     .then(results => console.log(JSON.stringify(handleResults.grow(results), null, 4)));
 
 // Destroy the connection pool
 knex.destroy().then(() => { console.log('closed') });
