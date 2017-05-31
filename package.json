@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node drills.js",
     "test": "mocha",
     "devmon": "nodemon drills.js"
   },
@@ -26,3 +26,4 @@
     "nodemon": "^1.11.0"
   }
 }
+
