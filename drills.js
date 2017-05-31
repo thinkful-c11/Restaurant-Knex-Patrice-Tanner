@@ -116,8 +116,62 @@ process.stdout.write('\033c');
   // knex('grades').where('id', '10').del().then(results => console.log("it's been deleted.."));
 
   //#13
-    //knex('restaurants').where('id', '22').del().then(results => console.log("this can't be deleted,", results));
-    //knex.select('name').from('restaurants').where('id', '22').then(results => console.log(results));
+    // knex('restaurants').where('id', '23').del().then(results => console.log("this can't be deleted,", results));
+    // knex.select('name').from('restaurants').where('id', '23').then(results => console.log(results));
+
+
+//hydrated
+
+// knex.select('people.id', 'name', 'age', 'pets.name as petName', 'pets.type as petType')
+//     .from('people')
+//     .innerJoin('pets', 'people.id', 'pets.people_id')
+//     .then(results => res.json(results));
+// const hydrated = {};
+// people.forEach(row => {
+//   if ( !(row.id in hydrated) ) {
+//         hydrated[row.id] = {
+//             id: row.id,
+//             name: row.name,
+//             age: row.age,
+//             pets: []
+//         }
+//     }
+//     hydrated[row.id].pets.push({
+//         name: row.petName,
+//         type: row.petType,
+//     });
+// });
+// console.log(hydrated);
+
+knex.select('restaurants.id', 'name', 'cuisine', 'borough', 'grades.id as gradeId', 'grade', 'score')
+    .from('restaurants')
+    .innerJoin('grades', 'restaurants.id', 'grades.restaurant_id')
+    .orderBy('date', 'desc')
+    .limit(10)
+    .then(results => hydrator(results));
+
+const hydrated = {};
+function hydrator (results){
+  results.forEach(row => {
+    if(!(row.id in hydrated)){
+      hydrated[row.id] = {
+        id : row.id,
+        name : row.name,
+        cuisine : row.cuisine,
+        borough : row.borough,
+        grades : []
+      }
+    }
+    hydrated[row.id].grades.push({
+      gradeID : row.gradeId,
+      grade : row.grade,
+      score : row.score
+    });
+
+  });
+
+  console.log(JSON.stringify(hydrated,null, 4));
+}
 
 // Destroy the connection pool
 knex.destroy().then(() => { console.log('closed') });
