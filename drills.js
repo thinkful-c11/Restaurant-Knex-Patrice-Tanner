@@ -61,5 +61,63 @@ process.stdout.write('\033c');
 //   .debug(true)
 //   .then(results => console.log(results));
 
+//#8
+// knex('restaurants').insert({
+//   name: 'Byte Cafe',
+//   borough: 'Brooklyn',
+//   cuisine: 'coffee',
+//   address_building_number: '123',
+//   address_street: 'Atlantic Avenue',
+//   address_zipcode: '11231'
+// }).then(results=> console.log(results));
+
+// knex('restaurants').select('name').where({name: 'Byte Cafe'}).then(results => console.log(results));
+
+//#9
+// knex('restaurants').returning(['id', 'name']).insert({
+//   name: 'Papa Johns',
+//   borough: 'Brooklyn',
+//   cuisine: 'Italian',
+//   address_building_number: '126',
+//   address_street: 'Atlantic Avenue',
+//   address_zipcode: '11231'
+// }).then(results=> console.log(results));
+
+//#10
+// knex('restaurants').returning(['id', 'name']).insert([{
+//   name: 'Dennys',
+//   borough: 'Brooklyn',
+//   cuisine: 'American',
+//   address_building_number: '128',
+//   address_street: 'Atlantic Avenue',
+//   address_zipcode: '11231'
+// },
+// {name: 'Taco Bell',
+//   borough: 'Brooklyn',
+//   cuisine: 'American',
+//   address_building_number: '129',
+//   address_street: 'Atlantic Avenue',
+//   address_zipcode: '11231'}, {
+//     name: 'Chick-Fil-A',
+//     borough: 'Brooklyn',
+//     cuisine: 'American',
+//     address_building_number: '130',
+//     address_street: 'Atlantic Avenue',
+//     address_zipcode: '11231'
+//   }]).then(results=> console.log(results));
+
+//#11
+  // knex('restaurants').where('nyc_restaurant_id', '30191841').returning('name').update({name: 'DJ Reynolds Pub and Restaurant'})
+  // .then(results => console.log(results));
+
+ // knex('restaurants').select('name', 'id').where({name: 'Dj Reynolds Pub And Restaurant'}).then(results => console.log(results));
+
+ //#12
+  // knex('grades').where('id', '10').del().then(results => console.log("it's been deleted.."));
+
+  //#13
+    //knex('restaurants').where('id', '22').del().then(results => console.log("this can't be deleted,", results));
+    //knex.select('name').from('restaurants').where('id', '22').then(results => console.log(results));
+
 // Destroy the connection pool
 knex.destroy().then(() => { console.log('closed') });
